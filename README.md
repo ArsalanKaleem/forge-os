@@ -50,7 +50,7 @@ Built entirely on **free APIs** (GitHub REST + GraphQL, Gemini free tier). No pa
 ### Setup
 
 ```bash
-git clone https://github.com/your-username/os-project-finder.git
+git clone https://github.com/https://github.com/ArsalanKaleem/os-project-finder-
 cd os-project-finder
 
 # 1. Generate the platform folders for the targets you want
