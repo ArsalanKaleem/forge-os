@@ -61,9 +61,6 @@ Most developers who want to contribute to open source hit the same wall: **they 
 
 ---
 
-## 🖼️ Screenshots
-
-*(Add screenshots or a short demo GIF here once available — the Home, Issue Finder, Repo Details, and AI Assistant screens make for a strong preview.)*
 
 ---
 
