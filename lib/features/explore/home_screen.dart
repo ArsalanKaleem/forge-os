@@ -207,30 +207,33 @@ class _FilterBar extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 24),
-        Row(
-          children: [
-            SegmentedButton<TrendingPeriod>(
-              segments: [
-                for (final p in TrendingPeriod.values)
-                  ButtonSegment(value: p, label: Text(p.label)),
-              ],
-              selected: {filter.period},
-              showSelectedIcon: false,
-              onSelectionChanged: (set) =>
-              notifier.state = filter.copyWith(period: set.first),
-            ),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SegmentedButton<TrendingPeriod>(
+            segments: [
+              for (final p in TrendingPeriod.values)
+                ButtonSegment(
+                  value: p,
+                  label: Text(p.label, softWrap: false, maxLines: 1),
+                ),
+            ],
+            selected: {filter.period},
+            showSelectedIcon: false,
+            onSelectionChanged: (set) =>
+            notifier.state = filter.copyWith(period: set.first),
+          ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 12),
         SizedBox(
-          height: 40,
+          height: 48,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: FilterChip(
-                  label: const Text('All languages'),
+                  label: const Text('All languages',
+                      softWrap: false, maxLines: 1),
                   selected: filter.language == null,
                   onSelected: (_) =>
                   notifier.state = filter.copyWith(clearLanguage: true),
@@ -240,7 +243,7 @@ class _FilterBar extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: FilterChip(
-                    label: Text(lang),
+                    label: Text(lang, softWrap: false, maxLines: 1),
                     selected: filter.language == lang,
                     onSelected: (sel) => notifier.state = filter.copyWith(
                         language: sel ? lang : null,
