@@ -2,7 +2,7 @@
 abstract final class AppConstants {
   static const appName = 'Open Source Project Finder';
   static const appVersion = '1.0.0';
-  static const repoUrl = 'https://github.com/ArsalanKaleem/os-project-finder-';
+  static const repoUrl = 'https://github.com/your-username/os-project-finder';
 
   // ── GitHub ────────────────────────────────────────────────────────────
   static const githubApiBase = 'https://api.github.com';
@@ -32,11 +32,12 @@ abstract final class AppConstants {
 
   /// Models available on the Gemini free tier.
   static const geminiModels = <String>[
+    'gemini-2.5-flash',
+    'gemini-2.5-flash-lite',
     'gemini-2.0-flash',
     'gemini-2.0-flash-lite',
-    'gemini-1.5-flash',
   ];
-  static const defaultGeminiModel = 'gemini-2.0-flash';
+  static const defaultGeminiModel = 'gemini-2.5-flash';
 
   // ── Local storage limits ─────────────────────────────────────────────
   static const maxSearchHistory = 15;
