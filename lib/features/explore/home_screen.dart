@@ -58,7 +58,7 @@ class HomeScreen extends ConsumerWidget {
                       itemBuilder: (_, i) => SizedBox(
                         width: 320,
                         child:
-                            RepoCard(repo: recentlyViewed[i], compact: true),
+                        RepoCard(repo: recentlyViewed[i], compact: true),
                       ),
                     ),
                   ),
@@ -76,16 +76,16 @@ class HomeScreen extends ConsumerWidget {
                 sliver: trending.when(
                   data: (repos) => repos.isEmpty
                       ? const SliverToBoxAdapter(
-                          child: EmptyView(
-                            icon: Icons.travel_explore,
-                            title: 'No trending repositories found',
-                            subtitle:
-                                'Try a longer period or a different language.',
-                          ),
-                        )
+                    child: EmptyView(
+                      icon: Icons.travel_explore,
+                      title: 'No trending repositories found',
+                      subtitle:
+                      'Try a longer period or a different language.',
+                    ),
+                  )
                       : RepoSliverGrid(repos: repos),
                   loading: () =>
-                      const SliverToBoxAdapter(child: SkeletonGrid()),
+                  const SliverToBoxAdapter(child: SkeletonGrid()),
                   error: (e, _) => SliverToBoxAdapter(
                     child: ErrorView(
                       message: e.toString(),
@@ -147,22 +147,66 @@ class _FilterBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(trendingFilterProvider.notifier);
 
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Find your first open source contribution',
-          style: Theme.of(context).textTheme.headlineSmall,
+        // Branded hero panel.
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(24, 26, 24, 28),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: scheme.outlineVariant),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.alphaBlend(
+                    scheme.secondary.withValues(alpha: 0.14), scheme.surface),
+                scheme.surface,
+                Color.alphaBlend(
+                    scheme.secondary.withValues(alpha: 0.05), scheme.surface),
+              ],
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.auto_awesome,
+                      size: 15, color: scheme.secondary),
+                  const SizedBox(width: 6),
+                  Text(
+                    'DISCOVER',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: scheme.secondary,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Make your first\nopen source contribution',
+                style: theme.textTheme.headlineMedium?.copyWith(height: 1.15),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Trending projects and beginner-friendly issues, '
+                    'with AI guidance from first look to first PR.',
+                style: theme.textTheme.bodyLarge
+                    ?.copyWith(color: scheme.onSurfaceVariant),
+              ),
+            ],
+          ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Trending projects and beginner-friendly issues, all in one place.',
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
-        ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
         Row(
           children: [
             SegmentedButton<TrendingPeriod>(
@@ -173,7 +217,7 @@ class _FilterBar extends ConsumerWidget {
               selected: {filter.period},
               showSelectedIcon: false,
               onSelectionChanged: (set) =>
-                  notifier.state = filter.copyWith(period: set.first),
+              notifier.state = filter.copyWith(period: set.first),
             ),
           ],
         ),
@@ -189,7 +233,7 @@ class _FilterBar extends ConsumerWidget {
                   label: const Text('All languages'),
                   selected: filter.language == null,
                   onSelected: (_) =>
-                      notifier.state = filter.copyWith(clearLanguage: true),
+                  notifier.state = filter.copyWith(clearLanguage: true),
                 ),
               ),
               for (final lang in AppConstants.languages)
