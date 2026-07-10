@@ -21,10 +21,8 @@ class _SkeletonBoxState extends State<SkeletonBox>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1100),
-    lowerBound: 0.35,
-    upperBound: 0.9,
-  )..repeat(reverse: true);
+    duration: const Duration(milliseconds: 1300),
+  )..repeat();
 
   @override
   void dispose() {
@@ -34,16 +32,31 @@ class _SkeletonBoxState extends State<SkeletonBox>
 
   @override
   Widget build(BuildContext context) {
-    final base = Theme.of(context).colorScheme.surfaceContainerHighest;
-    return FadeTransition(
-      opacity: _controller,
-      child: Container(
-        width: widget.width,
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: base,
-          borderRadius: BorderRadius.circular(widget.radius),
-        ),
+    final scheme = Theme.of(context).colorScheme;
+    final base = scheme.surfaceContainerHigh;
+    final highlight = scheme.surfaceContainerHighest;
+
+    // Shimmer sweep rather than a simple fade — reads as more premium.
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(widget.radius),
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          final t = _controller.value;
+          return Container(
+            width: widget.width,
+            height: widget.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(widget.radius),
+              gradient: LinearGradient(
+                begin: Alignment(-1 - 2 * (1 - t), 0),
+                end: Alignment(1 - 2 * (1 - t), 0),
+                colors: [base, highlight, base],
+                stops: const [0.35, 0.5, 0.65],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -51,33 +64,47 @@ class _SkeletonBoxState extends State<SkeletonBox>
 
 /// Card-shaped skeleton matching [RepoCard] / [IssueCard] proportions.
 class SkeletonCard extends StatelessWidget {
-  const SkeletonCard({super.key, this.height = 150});
+  const SkeletonCard({super.key, this.height = 160});
   final double height;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: const [
-              SkeletonBox(width: 36, height: 36, radius: 18),
-              SizedBox(width: 12),
-              Expanded(child: SkeletonBox(width: double.infinity, height: 16)),
-            ]),
-            const SizedBox(height: 16),
-            const SkeletonBox(),
-            const SizedBox(height: 8),
-            const SkeletonBox(width: 220),
-            const Spacer(),
-            Row(children: const [
-              SkeletonBox(width: 60, height: 12),
-              SizedBox(width: 12),
-              SkeletonBox(width: 60, height: 12),
-            ]),
-          ],
+    return SizedBox(
+      height: height,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: const [
+                SkeletonBox(width: 34, height: 34, radius: 17),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SkeletonBox(width: 80, height: 9),
+                      SizedBox(height: 6),
+                      SkeletonBox(width: 150, height: 15),
+                    ],
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 16),
+              const SkeletonBox(height: 11),
+              const SizedBox(height: 8),
+              const SkeletonBox(width: 220, height: 11),
+              const Spacer(),
+              Row(children: const [
+                SkeletonBox(width: 52, height: 11),
+                SizedBox(width: 16),
+                SkeletonBox(width: 52, height: 11),
+                SizedBox(width: 16),
+                SkeletonBox(width: 64, height: 11),
+              ]),
+            ],
+          ),
         ),
       ),
     );
@@ -92,14 +119,14 @@ class SkeletonGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 420,
-        mainAxisExtent: 170,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        maxCrossAxisExtent: 440,
+        mainAxisExtent: 186,
+        crossAxisSpacing: 14,
+        mainAxisSpacing: 14,
       ),
       itemCount: count,
       itemBuilder: (_, __) => const SkeletonCard(),
