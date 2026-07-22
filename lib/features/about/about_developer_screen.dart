@@ -21,9 +21,8 @@ class _SocialLink {
 // ── Developer profile ──────────────────────────────────────────────────
 // Edit these constants to personalize the screen.
 const String _devName = 'Arsalan Kaleem';
-const String _devHandle = 'Somi';
 const String _devRole = 'Flutter Developer · Firebase · AI Integrations';
-const String _devAvatarUrl = 'https://github.com/identicons/somi.png';
+const String _devAvatarUrl = 'https://res.cloudinary.com/dfd2kp7s5/image/upload/v1782695912/image_ao9slm.jpg';
 const String _devBio =
     'I build cross-platform apps with Flutter — mobile, desktop and web — '
     'with a focus on clean architecture, real-time systems, and weaving AI '
@@ -34,22 +33,22 @@ const _socialLinks = <_SocialLink>[
   _SocialLink(
     label: 'GitHub',
     icon: Icons.code_rounded,
-    url: 'https://github.com/your-username',
+    url: 'https://github.com/ArsalanKaleem',
   ),
   _SocialLink(
     label: 'LinkedIn',
     icon: Icons.work_rounded,
-    url: 'https://linkedin.com/in/your-username',
+    url: 'www.linkedin.com/in/arsalankaleem',
   ),
   _SocialLink(
     label: 'Email',
     icon: Icons.mail_rounded,
-    url: 'mailto:you@example.com',
+    url: 'mailto:arsalanabbasi.here@gmail.com',
   ),
   _SocialLink(
     label: 'Portfolio',
     icon: Icons.language_rounded,
-    url: 'https://your-portfolio.example.com',
+    url: 'https://arsalankaleem.github.io/portfolio/',
   ),
 ];
 
@@ -116,13 +115,6 @@ class AboutDeveloperScreen extends StatelessWidget {
                             color: scheme.secondary
                                 .withValues(alpha: isDark ? 0.16 : 0.12),
                             borderRadius: BorderRadius.circular(AppRadii.pill),
-                          ),
-                          child: Text(
-                            '“$_devHandle”',
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              color: scheme.secondary,
-                              fontWeight: FontWeight.w700,
-                            ),
                           ),
                         ),
                         const SizedBox(height: 10),
